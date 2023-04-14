@@ -435,7 +435,7 @@ declare -a ad_requests=(
 fileName="$1"
 
 {
-   #Jump to sys-vagrant directory
+   # Jump to sys-vagrant directory
    cd /home/joao/sys-vagrant
 
    # Connect to remote machine and execute commands
@@ -481,14 +481,14 @@ joinArraysAndAssociateAsKeyValue() {
       ;;
   esac
 
-  # Associate the fields array with the keys and values arrays
+  # Associate arrays with keys => values
   for i in "${!fields[@]}"; do
     keys+=("${logFile[$i]}")
     values+=("${fields[$i]}")
   done
 }
 
-# Call the function with the appropriate file name
+# Call the function
 joinArraysAndAssociateAsKeyValue
 
 
