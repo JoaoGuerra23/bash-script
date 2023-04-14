@@ -449,80 +449,48 @@ declare -a keys=()
 declare -a values=()
 IFS='|' read -ra fields <<< "$outputFromCLI"
 
-# Select the appropriate array based on the outputFromCLI array name
-case "$fileName" in
-    "impressions")
-        impressions=("${common[@]}" "${impressions[@]}")
-        for i in "${!fields[@]}"; do
-            keys+=("${impressions[$i]}")
-            values+=("${fields[$i]}")
-        done
-        ;;
-    "clicks")
-        clicks=("${common[@]}" "${clicks[@]}")
-        for i in "${!fields[@]}"; do
-            keys+=("${clicks[$i]}")
-            values+=("${fields[$i]}")
-        done
-        ;;
-    "goals")
-        goals=("${common[@]}" "${goals[@]}")
-        for i in "${!fields[@]}"; do
-            keys+=("${goals[$i]}")
-            values+=("${fields[$i]}")
-        done
-        ;;
-    "video_views")
-        video_views=("${common[@]}" "${video_views[@]}")
-        for i in "${!fields[@]}"; do
-            keys+=("${video_views[$i]}")
-            values+=("${fields[$i]}")
-        done
-        ;;
-    "video_hits")
-        video_hits=("${common[@]}" "${video_hits[@]}")
-        for i in "${!fields[@]}"; do
-            keys+=("${video_hits[$i]}")
-            values+=("${fields[$i]}")
-        done
-        ;;
-    "rtb")
-        rtb=("${common[@]}" "${rtb[@]}")
-        for i in "${!fields[@]}"; do
-            keys+=("${rtb[$i]}")
-            values+=("${fields[$i]}")
-        done
-        ;;
-    "wpn_events")
-        wpn_events=("${common[@]}" "${wpn_events[@]}")
-        for i in "${!fields[@]}"; do
-            keys+=("${wpn_events[$i]}")
-            values+=("${fields[$i]}")
-        done
-        ;;
-    "ad_requests")
-        ad_requests=("${common[@]}" "${ad_requests[@]}")
-        for i in "${!fields[@]}"; do
-            keys+=("${ad_requests[$i]}")
-            values+=("${fields[$i]}")
-        done
-        ;;
-    *)
-        echo "Error: Unknown .log file name"
-        exit 1
-        ;;
-esac
-
-# TODO: improve this function
 joinArraysAndAssociateAsKeyValue() {
-  local join=("${common[@]}" "${fileName[@]}")
+  case "$fileName" in
+    "impressions")
+      logFile=("${common[@]}" "${impressions[@]}")
+      ;;
+    "clicks")
+      logFile=("${common[@]}" "${clicks[@]}")
+      ;;
+    "goals")
+      logFile=("${common[@]}" "${goals[@]}")
+      ;;
+    "video_views")
+      logFile=("${common[@]}" "${video_views[@]}")
+      ;;
+    "video_hits")
+      logFile=("${common[@]}" "${video_hits[@]}")
+      ;;
+    "rtb")
+      logFile=("${common[@]}" "${rtb[@]}")
+      ;;
+    "wpn_events")
+      logFile=("${common[@]}" "${wpn_events[@]}")
+      ;;
+    "ad_requests")
+      logFile=("${common[@]}" "${ad_requests[@]}")
+      ;;
+    *)
+      echo "Error: Unknown .log file name"
+      exit 1
+      ;;
+  esac
 
   # Associate the fields array with the keys and values arrays
   for i in "${!fields[@]}"; do
-    keys+=("${join[$i]}")
+    keys+=("${logFile[$i]}")
     values+=("${fields[$i]}")
   done
 }
+
+# Call the function with the appropriate file name
+joinArraysAndAssociateAsKeyValue
+
 
 # Find the maximum length of each column
 first_col_max_length=3
