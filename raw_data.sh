@@ -500,10 +500,10 @@ second_col_max_length=$(printf '%s\n' "${keys[@]}" | awk '{ print length }' | so
 third_col_max_length=$(printf '%s\n' "${values[@]}" | awk '{ print length }' | sort -rn | head -1)
 
 # Print the table header
-printf "+-%-${first_col_max_length}s-+-%-${second_col_max_length}s-+-%-${third_col_max_length}s-+\n" "$(printf '%.0s-' $(seq 1 $first_col_max_length))" "$(printf '%.0s-' $(seq 1 "$second_col_max_length"))" "$(printf '%.0s-' $(seq 1 "$third_col_max_length"))"
+printf "+-%-${first_col_max_length}s-+-%-${second_col_max_length}s-+-%-${third_col_max_length}s-+\n" "$(printf '%.0s-' $(seq 1 "$first_col_max_length"))" "$(printf '%.0s-' $(seq 1 "$second_col_max_length"))" "$(printf '%.0s-' $(seq 1 "$third_col_max_length"))"
 
 # Print the table rows
 for i in "${!keys[@]}"; do
   printf "| %-${first_col_max_length}s | %-${second_col_max_length}s | %-${third_col_max_length}s |\n" "${count[$i]}" "${keys[$i]}" "${values[$i]}"
-  printf "+-%-${first_col_max_length}s-+-%-${second_col_max_length}s-+-%-${third_col_max_length}s-+\n" "$(printf '%.0s-' $(seq 1 $first_col_max_length))" "$(printf '%.0s-' $(seq 1 "$second_col_max_length"))" "$(printf '%.0s-' $(seq 1 "$third_col_max_length"))"
+  printf "+-%-${first_col_max_length}s-+-%-${second_col_max_length}s-+-%-${third_col_max_length}s-+\n" "$(printf '%.0s-' $(seq 1 "$first_col_max_length"))" "$(printf '%.0s-' $(seq 1 "$second_col_max_length"))" "$(printf '%.0s-' $(seq 1 "$third_col_max_length"))"
 done
