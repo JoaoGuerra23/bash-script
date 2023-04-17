@@ -439,7 +439,10 @@ fileName="$1"
    cd /home/joao/sys-vagrant
 
    # Connect to remote machine and execute commands
-   outputFromCLI=$(vagrant ssh web -c "cd /var/exads/data/ad-server/ && tail -n 1 $fileName.log")
+   output=$(vagrant ssh web -c "cd /var/exads/data/ad-server/ && tail -n 1 $fileName.log")
+
+   # Removing the spaces at the end of CLI output
+   outputFromCLI=$(echo "$output" | sed "s/[[:space:]]*$//")
 
 } || {
     exit
