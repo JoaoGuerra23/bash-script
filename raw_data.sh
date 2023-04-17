@@ -431,7 +431,7 @@ declare -a ad_requests=(
   "refresh_iteration (int)"
 )
 
-# Read inputs from the command line
+# Read inputs from CLI
 fileName="$1"
 
 getOutputFromRemoteMachine() {
@@ -446,17 +446,15 @@ getOutputFromRemoteMachine() {
 
   cd "$changeMe"
 
-  # Connect to remote machine and execute commands
   output=$(vagrant ssh web -c "cd /var/exads/data/ad-server/ && tail -n 1 $fileName.log")
   exit_status=$?
 
-  # Print the output case it doesn't contain the delimiter
   if [[ $exit_status -ne 0 ]]; then
     echo "ERROR: Be sure that the .log exists and your remote machine is running"
     exit 1
   fi
 
-  # Removing the spaces at the end of CLI output
+  # Removing the spaces at the end from output
   outputFromCLI=$(echo "$output" | sed "s/[[:space:]]*$//")
 
   IFS='|' read -ra fields <<<"$outputFromCLI"
@@ -492,7 +490,6 @@ joinArraysAndAssociateAsKeyValue() {
   *) ;;
   esac
 
-  # Associate arrays with keys => values
   for i in "${!fields[@]}"; do
     count[i]=$((i + 1))
     keys+=("${logFile[$i]}")
