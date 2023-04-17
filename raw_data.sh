@@ -445,6 +445,7 @@ fileName="$1"
     exit
 }
 
+declare -a count=()
 declare -a keys=()
 declare -a values=()
 IFS='|' read -ra fields <<< "$outputFromCLI"
@@ -483,6 +484,7 @@ joinArraysAndAssociateAsKeyValue() {
 
   # Associate arrays with keys => values
   for i in "${!fields[@]}"; do
+    count[i]=$((i+1))
     keys+=("${logFile[$i]}")
     values+=("${fields[$i]}")
   done
@@ -493,7 +495,7 @@ joinArraysAndAssociateAsKeyValue
 
 
 # Find the maximum length of each column
-first_col_max_length=3
+first_col_max_length=$(printf '%s\n' "${count[@]}" | awk '{ print length }' | sort -rn | head -1)
 second_col_max_length=$(printf '%s\n' "${keys[@]}" | awk '{ print length }' | sort -rn | head -1)
 third_col_max_length=$(printf '%s\n' "${values[@]}" | awk '{ print length }' | sort -rn | head -1)
 
@@ -502,6 +504,6 @@ printf "+-%-${first_col_max_length}s-+-%-${second_col_max_length}s-+-%-${third_c
 
 # Print the table rows
 for i in "${!keys[@]}"; do
-  printf "| %-${first_col_max_length}s | %-${second_col_max_length}s | %-${third_col_max_length}s |\n" "$((i+1))" "${keys[$i]}" "${values[$i]}"
+  printf "| %-${first_col_max_length}s | %-${second_col_max_length}s | %-${third_col_max_length}s |\n" "${count[$i]}" "${keys[$i]}" "${values[$i]}"
   printf "+-%-${first_col_max_length}s-+-%-${second_col_max_length}s-+-%-${third_col_max_length}s-+\n" "$(printf '%.0s-' $(seq 1 $first_col_max_length))" "$(printf '%.0s-' $(seq 1 "$second_col_max_length"))" "$(printf '%.0s-' $(seq 1 "$third_col_max_length"))"
 done
