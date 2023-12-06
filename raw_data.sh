@@ -76,6 +76,10 @@ declare -a impressions=(
   "script_detail (int)"
   "script_version (int)"
   "refresh_iteration (int)"
+  "idadvertiser_ad_type (int)"
+  "idproxy_type (int)"
+  "idnetwork_type (int) (in progress: EX-14348)"
+  "idcampaign_type (int) (in progress: EX-17201)"
 )
 
 declare -a clicks=(
@@ -131,6 +135,10 @@ declare -a clicks=(
   "script_detail (int) "
   "script_version (int)"
   "refresh_iteration (int)"
+  "idadvertiser_ad_type (int)"
+  "idproxy_type (int)"
+  "idnetwork_type (int) (in progress: EX-14348)"
+  "idcampaign_type (int) (in progress: EX-17201)"
 )
 
 declare -a goals=(
@@ -182,6 +190,10 @@ declare -a goals=(
   "script_version (int)"
   "conversion_value_eur (float)"
   "conversion_value_usd (float)"
+  "idadvertiser_ad_type (int)"
+  "idproxy_type (int)"
+  "idnetwork_type (int) (in progress: EX-14348)"
+  "idcampaign_type (int) (in progress: EX-17201)"
 )
 
 declare -a video_views=(
@@ -231,6 +243,10 @@ declare -a video_views=(
   "email_isp (int)"
   "script_detail (int)"
   "script_version (int)"
+  "idadvertiser_ad_type (int)"
+  "idproxy_type (int)"
+  "idnetwork_type (int) (in progress: EX-14348)"
+  "idcampaign_type (int) (in progress: EX-17201)"
 )
 
 declare -a video_hits=(
@@ -279,6 +295,10 @@ declare -a video_hits=(
   "email_isp (int)"
   "script_detail (int)"
   "script_version (int)"
+  "idadvertiser_ad_type (int)"
+  "idproxy_type (int)"
+  "idnetwork_type (int) (in progress: EX-14348)"
+  "idcampaign_type (int) (in progress: EX-17201)"
 )
 
 declare -a rtb=(
@@ -333,6 +353,13 @@ declare -a rtb=(
   "email_isp (int)"
   "script_detail (int)"
   "script_version (int)"
+  "idadvertiser_ad_type (int)"
+  "idproxy_type (int)"
+  "idnetwork_type (int) (in progress: EX-14348)"
+  "plcmtcnt (int) (in progress) - TBC"
+  "rtb_inventory_id (varchar)"
+  "rtb_inventory_name (varchar)"
+  "idcampaign_type (int) (in progress: EX-17201)"
 )
 
 declare -a wpn_events=(
@@ -379,6 +406,10 @@ declare -a wpn_events=(
   "email_isp (int)"
   "script_detail (int)"
   "script_version (int)"
+  "idadvertiser_ad_type (int)"
+  "idproxy_type (int)"
+  "idnetwork_type (int) (in progress: EX-14348)"
+  "idcampaign_type (int) (in progress: EX-17201)"
 )
 
 declare -a ad_requests=(
@@ -429,6 +460,11 @@ declare -a ad_requests=(
   "script_detail (int)"
   "script_version (int)"
   "refresh_iteration (int)"
+  "idadvertiser_ad_type (int)"
+  "idproxy_type (int)"
+  "ad_request_result (int)"
+  "idnetwork_type (int) (in progress: EX-14348)"
+  "idcampaign_type (int) (in progress: EX-17201)"
 )
 
 # Read inputs from CLI
@@ -437,7 +473,7 @@ fileName="$1"
 getOutputFromRemoteMachine() {
 
   # Insert your own path above
-  changeMe="/home/joao/sys-vagrant"
+  changeMe="/Users/exads/sys-vagrocker"
 
   if [ ! -d "$changeMe" ]; then
     echo "ERROR: Folder $changeMe does not exist."
@@ -446,7 +482,7 @@ getOutputFromRemoteMachine() {
 
   cd "$changeMe"
 
-  output=$(vagrant ssh web -c "cd /var/exads/data/ad-server/ && tail -n 1 $fileName.log")
+  output=$(./vagrocker ssh web -c "cd /var/exads/data/ad-server/ && tail -n 1 $fileName.log")
   exit_status=$?
 
   if [[ $exit_status -ne 0 ]]; then
